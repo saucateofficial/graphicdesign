@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Atölye – Tasarım Arşivim</title>
+<style>
+:root{--bg:#efedee;--card:#fff;--ink:#4a0d0d;--mute:#9a8c89;--line:#ddd3d0;--red:#d6241c;--taupe:#b5a8a5;box-sizing:border-box}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:var(--ink);font:15px/1.5 "Helvetica Neue",Helvetica,Arial,"Inter",sans-serif;background:radial-gradient(ellipse at 50% 100%,#4a0b0b 0%,#220606 45%,#120303 100%) fixed;padding:calc(18px + env(safe-area-inset-top,0px)) 12px calc(18px + env(safe-area-inset-bottom,0px))}
+.frame{max-width:980px;margin:0 auto;border-radius:22px;overflow:hidden;background:var(--bg);border:1px solid #ffffff30;box-shadow:0 30px 80px #0008}
+.hero{position:relative;min-height:250px;padding:18px 20px 20px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(circle at 78% 15%,#f0402f 0%,#b3171b 32%,#5a0a0d 65%,#1d0405 100%)}
+.top{display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.logo{font-weight:600;letter-spacing:-.02em}
+.status{font-size:11px;background:#ffffff22;border:1px solid #ffffff44;padding:4px 10px;border-radius:99px;backdrop-filter:blur(6px)}
+.hero h1{margin:14px 0 0;text-align:right;font-weight:500;text-transform:uppercase;letter-spacing:-.05em;line-height:.9;font-size:clamp(44px,12vw,92px)}
+.bot{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-top:18px}
+.tag{font-size:12px;text-transform:uppercase;line-height:1.15;letter-spacing:-.01em}
+.count{background:#fff;color:var(--ink);border-radius:14px;padding:10px 14px;min-width:96px}
+.count b{display:block;font-size:30px;font-weight:500;letter-spacing:-.05em;line-height:1}
+.count span{font-size:11px;color:var(--mute)}
+.body{padding:26px 18px 120px;position:relative}
+.h{font-weight:500;text-transform:uppercase;letter-spacing:-.045em;line-height:.95}
+.h2{font-size:clamp(26px,6.5vw,44px);margin:0 0 6px}
+.h2 em{font-style:normal;color:var(--taupe)}
+.star{color:var(--red);font-size:30px;line-height:1;display:block;margin-bottom:8px}
+.lab{display:inline-block;font-size:12px;text-transform:uppercase;border-bottom:1px solid var(--ink);margin-top:20px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}
+.chip{border:1px solid var(--ink);background:transparent;color:var(--ink);padding:6px 15px;border-radius:99px;font:inherit;font-size:13px;cursor:pointer}
+.chip.on{background:var(--ink);color:#fff}
+.chip.add{border-style:dashed;border-color:var(--taupe);color:var(--mute)}
+.sw{width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+.sw.on{box-shadow:0 0 0 2px var(--ink)}
+.grid{columns:2 150px;column-gap:12px;margin-top:18px}
+@media(min-width:700px){.grid{columns:4}}
+.card{position:relative;break-inside:avoid;border-radius:18px;margin-bottom:12px;overflow:hidden;cursor:pointer;background:#2a0708}
+.card img{width:100%;display:block}
+.cap{position:absolute;left:0;right:0;bottom:0;padding:34px 12px 10px;background:linear-gradient(transparent,#2a0506f0);color:#fff}
+.cap b{display:block;font-weight:500;font-size:16px;letter-spacing:-.03em;line-height:1.05}
+.cap span{font-size:11px;opacity:.75}
+.card .dots{position:absolute;top:8px;left:8px;background:#ffffffd9;padding:4px 6px;border-radius:99px}
+.dots{display:flex;gap:4px}.dots i{width:14px;height:14px;border-radius:50%;box-shadow:0 0 0 1px #0002}
+.empty{text-align:center;color:var(--mute);padding:50px 10px}
+.btn{background:var(--ink);color:#fff;border:0;border-radius:99px;padding:11px 20px;font:inherit;font-weight:500;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.fab{position:fixed;right:max(16px,calc(50% - 470px));bottom:calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px;z-index:5}
+.fab button{width:54px;height:54px;border-radius:50%;border:1px solid var(--ink);background:var(--bg);color:var(--ink);font-size:22px;box-shadow:0 6px 18px #0005;cursor:pointer}
+.fab .main{background:radial-gradient(circle at 30% 25%,#f0402f,#a3121a);color:#fff;border:0;font-size:30px}
+.modal{position:fixed;inset:0;background:#120303b0;z-index:20;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px)}
+.modal.on{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:560px;max-height:88vh;overflow:auto;border-radius:24px 24px 0 0;padding:22px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.sheet h2{margin:0 0 12px;font-size:28px}
+input[type=text],textarea,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:14px;background:#fff;color:var(--ink);font:inherit;margin:6px 0}
+.prev{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}.prev img{width:100%;border-radius:12px}
+.tabs{display:flex;gap:6px;margin-bottom:12px}
+.hs{display:flex;border-radius:16px;overflow:hidden;margin:10px 0}
+.hs div{flex:1;height:70px;display:flex;align-items:flex-end;padding:5px;font-size:10px;color:#fff;text-shadow:0 0 3px #000a}
+.t p{margin:4px 0 12px;color:var(--mute)}.t h3{margin:14px 0 2px;font-size:15px;font-weight:600;letter-spacing:-.02em}
+.big{width:100%;border-radius:16px;margin:6px 0}
+.big img{width:100%;border-radius:16px}
+</style></head><body>
+<div class="frame">
+ <section class="hero">
+  <div class="top"><span class="logo">✱ atölye</span><span class="status" id="st">yükleniyor…</span></div>
+  <h1 class="h">Tasarım<br>arşivim</h1>
+  <div class="bot"><div class="count"><b id="cnt">0</b><span>kayıtlı görsel</span></div><div class="tag">Fikirlerin<br>renkli arşivi/</div></div>
+ </section>
+ <main class="body">
+  <span class="star">✱</span>
+  <h2 class="h h2">Arşivini <em>renge göre</em><br>düzenle</h2>
+  <div class="lab">Bölümler</div><div class="row" id="secs"></div>
+  <div class="lab">Renkler</div><div class="row" id="cols"></div>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden>Henüz görsel yok.<br>Sağ alttaki + ile poster ekle.</div>
+ </main>
+</div>
+<div class="fab"><button id="thBtn" title="Renk teorisi">◐</button><button class="main" id="addBtn" title="Ekle">+</button></div>
+
+<div class="modal" id="mAdd"><div class="sheet"><h2 class="h">Yeni <span style="color:var(--taupe)">görsel</span></h2>
+<input type="file" id="file" accept="image/*" multiple>
+<div class="prev" id="prev"></div>
+<input type="text" id="nm" placeholder="Poster türü (örn. Konser afişi, Minimalist…)">
+<select id="sc"></select>
+<textarea id="nt" rows="2" placeholder="Not (isteğe bağlı)"></textarea>
+<div class="row"><button class="btn" id="save">Kaydet</button><button class="btn ghost" data-x>Vazgeç</button></div></div></div>
+
+<div class="modal" id="mDet"><div class="sheet" id="det"></div></div>
+
+<div class="modal" id="mTh"><div class="sheet t">
+<h2 class="h">Renk <span style="color:var(--taupe)">teorisi</span></h2>
+<div class="tabs"><button class="chip on" data-tab="a">Temel</button><button class="chip" data-tab="b">Uyum</button><button class="chip" data-tab="c">Dene</button></div>
+<div id="tA"><h3>Renk çarkı</h3><p>Birincil: kırmızı, sarı, mavi. İkincil: bunların ikili karışımı (turuncu, yeşil, mor). Üçüncül: birincil + komşu ikincil.</p>
+<h3>Üç özellik</h3><p><b>Ton</b> (rengin kendisi), <b>doygunluk</b> (canlılık/solukluk), <b>parlaklık</b> (açık–koyu).</p>
+<h3>Sıcak / soğuk</h3><p>Kırmızı, turuncu, sarı yakınlık ve enerji verir; mavi, yeşil, mor sakinlik ve uzaklık.</p>
+<h3>60-30-10</h3><p>Posterde %60 baskın renk, %30 ikincil, %10 vurgu. Dengeli görünür.</p>
+<h3>Kontrast</h3><p>Okunabilirlik için metin ile zemin arasında parlaklık farkı olmalı; sadece ton farkı yetmez.</p></div>
+<div id="tB" hidden><h3>Tamamlayıcı</h3><p>Çarkta karşılıklı renkler; güçlü zıtlık, dikkat çeker.</p>
+<h3>Analog</h3><p>Yan yana 2–3 renk; huzurlu, uyumlu.</p>
+<h3>Üçlü</h3><p>Çarkta eşit aralıklı üç renk; canlı ve dengeli.</p>
+<h3>Bölünmüş tamamlayıcı</h3><p>Bir renk + karşısındaki rengin iki komşusu; zıtlık var ama daha yumuşak.</p>
+<h3>Monokrom</h3><p>Tek tonun açık–koyu varyasyonları; sade ve şık.</p></div>
+<div id="tC" hidden><p>Bir renk seç, uyum türünü seç:</p><input type="color" id="cp" value="#d6241c" class="big" style="height:46px;padding:2px;border:0;background:none">
+<select id="hm"><option value="tam">Tamamlayıcı</option><option value="ana">Analog</option><option value="uc">Üçlü</option><option value="bol">Bölünmüş tamamlayıcı</option><option value="dort">Dörtlü</option><option value="mono">Monokrom</option></select>
+<div class="hs" id="hsw"></div></div>
+<div class="row"><button class="btn ghost" data-x>Kapat</button></div></div></div>
+
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const FAMS=[["Kırmızı","#d9534f"],["Turuncu","#e8883a"],["Sarı","#ecc94b"],["Yeşil","#6fae6a"],["Turkuaz","#4fb0ae"],["Mavi","#4a7fc1"],["Mor","#8b6bb8"],["Pembe","#e58fb0"],["Kahverengi","#8a6244"],["Siyah","#222"],["Gri","#999"],["Beyaz","#f5f5f5"]];
+let items=[],secs=["Genel"],fs=null,fc=null,pend=[];
+
+function hsl(r,g,b){r/=255;g/=255;b/=255;const M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2,d=M-m;let h=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));h=M==r?((g-b)/d)%6:M==g?(b-r)/d+2:(r-g)/d+4;h=(h*60+360)%360}return[h,s,l]}
+function fam(r,g,b){const[h,s,l]=hsl(r,g,b);if(l<.14)return"Siyah";if(l>.9&&s<.5)return"Beyaz";if(s<.13)return l>.8?"Beyaz":"Gri";
+if(h<15||h>=345)return l<.3?"Kahverengi":"Kırmızı";if(h<40)return l<.42?"Kahverengi":"Turuncu";if(h<70)return"Sarı";if(h<165)return"Yeşil";if(h<200)return"Turkuaz";if(h<255)return"Mavi";if(h<290)return"Mor";return"Pembe"}
+const hex=(r,g,b)=>"#"+[r,g,b].map(v=>v.toString(16).padStart(2,"0")).join("");
+function analyze(img){const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d");x.drawImage(img,0,0,64,64);const d=x.getImageData(0,0,64,64).data,m={};
+for(let i=0;i<d.length;i+=4){const k=(d[i]>>4)<<8|(d[i+1]>>4)<<4|d[i+2]>>4,o=m[k]||(m[k]={n:0,r:0,g:0,b:0});o.n++;o.r+=d[i];o.g+=d[i+1];o.b+=d[i+2]}
+const L=Object.values(m).sort((a,b)=>b.n-a.n).map(o=>[Math.round(o.r/o.n),Math.round(o.g/o.n),Math.round(o.b/o.n)]);const P=[];
+for(const c of L){if(P.every(p=>Math.hypot(p[0]-c[0],p[1]-c[1],p[2]-c[2])>55))P.push(c);if(P.length>=5)break}
+return{pal:P.map(p=>hex(...p)),fams:[...new Set(P.map(p=>fam(...p)))]}}
+function thumb(img){const s=Math.min(1,640/Math.max(img.width,img.height)),c=document.createElement("canvas");c.width=img.width*s;c.height=img.height*s;c.getContext("2d").drawImage(img,0,0,c.width,c.height);return c.toDataURL("image/jpeg",.72)}
+const load=f=>new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=URL.createObjectURL(f)});
+
+function render(){
+ $("#cnt").textContent=items.length;
+ $("#secs").innerHTML="";
+ [null,...secs].forEach(s=>{const b=document.createElement("button");b.className="chip"+(fs===s?" on":"");b.textContent=s||"Hepsi";b.onclick=()=>{fs=s;render()};$("#secs").append(b)});
+ const a=document.createElement("button");a.className="chip add";a.textContent="+ Bölüm";a.onclick=addSec;$("#secs").append(a);
+ $("#cols").innerHTML="";
+ const used=new Set(items.flatMap(i=>i.fams||[]));
+ FAMS.filter(f=>used.has(f[0])).forEach(f=>{const b=document.createElement("button");b.className="sw"+(fc===f[0]?" on":"");b.style.background=f[1];b.title=f[0];b.onclick=()=>{fc=fc===f[0]?null:f[0];render()};$("#cols").append(b)});
+ if(fc){const x=document.createElement("button");x.className="chip";x.textContent=fc+" ✕";x.onclick=()=>{fc=null;render()};$("#cols").append(x)}
+ const v=items.filter(i=>(!fs||i.section===fs)&&(!fc||(i.fams||[]).includes(fc))).sort((a,b)=>b.t-a.t);
+ $("#empty").hidden=v.length>0;
+ $("#grid").innerHTML=v.map(i=>`<div class="card" data-id="${i.id}"><img src="${i.img}" alt=""><div class="dots">${(i.pal||[]).map(p=>`<i style="background:${p}"></i>`).join("")}</div><div class="cap"><b>${esc(i.name||"Adsız")}</b><span>${esc(i.section)}</span></div></div>`).join("");
+ document.querySelectorAll(".card").forEach(c=>c.onclick=()=>detail(c.dataset.id));
+}
+function addSec(){const r=$("#secs"),old=r.lastChild;const i=document.createElement("input");i.type="text";i.placeholder="Bölüm adı + Enter";i.style.width="170px";i.style.margin="0";old.replaceWith(i);i.focus();
+ const done=()=>{const v=i.value.trim();if(v&&!secs.includes(v)){secs.push(v);lsSave()}render()};i.onkeydown=e=>{if(e.key==="Enter")done()};i.onblur=done}
+function open(m){$(m).classList.add("on")}
+document.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>b.closest(".modal").classList.remove("on"));
+document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove("on")});
+
+$("#addBtn").onclick=()=>{pend=[];$("#prev").innerHTML="";$("#file").value="";$("#nm").value="";$("#nt").value="";$("#sc").innerHTML=secs.map(s=>`<option${s===fs?" selected":""}>${esc(s)}</option>`).join("");open("#mAdd")};
+$("#file").onchange=async e=>{pend=[];$("#prev").innerHTML="";for(const f of e.target.files){try{const im=await load(f),a=analyze(im),t=thumb(im);pend.push({img:t,...a});$("#prev").insertAdjacentHTML("beforeend",`<img src="${t}">`)}catch(_){}}};
+$("#save").onclick=()=>{if(!pend.length)return;
+ for(const p of pend){items.push({id:"i"+Date.now().toString(36)+Math.random().toString(36).slice(2,5),name:$("#nm").value.trim(),section:$("#sc").value||"Genel",note:$("#nt").value.trim(),img:p.img,pal:p.pal,fams:p.fams,t:Date.now()})}
+ lsSave();$("#mAdd").classList.remove("on");render()};
+
+function detail(id){const i=items.find(x=>x.id===id);if(!i)return;
+ $("#det").innerHTML=`<div class="big"><img src="${i.img}"></div><div class="dots">${i.pal.map(p=>`<i style="background:${p};width:26px;height:26px" title="${p}"></i>`).join("")}</div><p style="color:var(--mute);font-size:13px">${i.pal.join(" · ")}<br>Algılanan: ${i.fams.join(", ")}</p>
+ <input type="text" id="en" value="${esc(i.name)}" placeholder="Poster türü"><select id="es">${secs.map(s=>`<option${s===i.section?" selected":""}>${esc(s)}</option>`).join("")}</select><textarea id="ent" rows="2" placeholder="Not">${esc(i.note||"")}</textarea>
+ <div class="row"><button class="btn" id="eg">Güncelle</button><button class="btn ghost" id="ed">Sil</button><button class="btn ghost" data-x>Kapat</button></div>`;
+ $("#det").querySelector("[data-x]").onclick=()=>$("#mDet").classList.remove("on");
+ $("#eg").onclick=()=>{i.name=$("#en").value.trim();i.section=$("#es").value;i.note=$("#ent").value.trim();lsSave();$("#mDet").classList.remove("on");render()};
+ $("#ed").onclick=()=>{if($("#ed").dataset.c){items=items.filter(x=>x.id!==id);lsSave();$("#mDet").classList.remove("on");render()}else{$("#ed").dataset.c=1;$("#ed").textContent="Emin misin? Tekrar dokun"}};
+ open("#mDet")}
+
+/* Kayıt: tarayıcının localStorage'ı */
+const LS="atolye_v1";
+function lsSave(){try{localStorage.setItem(LS,JSON.stringify({items,secs}))}catch(_){alert("Depolama dolu olabilir. Bazı görselleri silmeyi dene.")}}
+function init(){
+ try{const j=JSON.parse(localStorage.getItem(LS)||"null");if(j){items=j.items||[];secs=j.secs||secs}}catch(_){}
+ $("#st").textContent="bu cihazda saklanır";render()}
+
+/* renk teorisi */
+$("#thBtn").onclick=()=>{open("#mTh");harm()};
+document.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{document.querySelectorAll("[data-tab]").forEach(x=>x.classList.toggle("on",x===b));["a","b","c"].forEach(k=>$("#t"+k.toUpperCase()).hidden=k!==b.dataset.tab)});
+function h2x(h,s,l){h=((h%360)+360)%360;const a=s*Math.min(l,1-l),f=n=>{const k=(n+h/30)%12;return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,9-k,1))))};return hex(f(0),f(8),f(4))}
+function harm(){const x=$("#cp").value,r=parseInt(x.slice(1,3),16),g=parseInt(x.slice(3,5),16),b=parseInt(x.slice(5,7),16),[h,s,l]=hsl(r,g,b),t=$("#hm").value;
+ const O={tam:[0,180],ana:[-30,0,30],uc:[0,120,240],bol:[0,150,210],dort:[0,90,180,270]};let c;
+ if(t==="mono")c=[.2,.35,.5,.65,.8].map(L=>h2x(h,s,L));else c=O[t].map(o=>o===0?x:h2x(h+o,s,l));
+ $("#hsw").innerHTML=c.map(k=>`<div style="background:${k}">${k}</div>`).join("")}
+$("#cp").oninput=harm;$("#hm").onchange=harm;
+init();
+</script></body></html>
